@@ -68,4 +68,4 @@ instructions for reporting a bug
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for more info.
 
-Please sett [BUILDING](BUILDING.txt) for build Apache Tomcat
+Please see [BUILDING](BUILDING.txt) for build Apache Tomcat
