@@ -68,4 +68,14 @@ instructions for reporting a bug
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for more info.
 
+### BUILDING
 Please see [BUILDING](BUILDING.txt) for build Apache Tomcat
+
+### IDE for idea config
+---
+put ${tomcat_home}/lib/*jar to idea menu
+"Project Structure/Modules/tomcat/Dependencies"
+
+### modify MANIFEST.MF
+
+modify  [MANIFEST.MF](modules/jdbc-pool/resources/MANIFEST.MF)  @@VERSION@@ to "Tomcat Version" for example "8.0"
