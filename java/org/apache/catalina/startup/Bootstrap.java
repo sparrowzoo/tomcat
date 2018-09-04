@@ -455,6 +455,9 @@ public final class Bootstrap {
      * @param args Command line arguments to be processed
      */
     public static void main(String args[]) {
+        String javaVersion = System.getProperty("java.version");
+        //${JAVA_HOME}/jre/lib/logging.properties
+        log.info("starting ..."+javaVersion);
 
         if (daemon == null) {
             // Don't set daemon until init() has completed
