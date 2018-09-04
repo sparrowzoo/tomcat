@@ -72,7 +72,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for more info.
 Please see [BUILDING](BUILDING.txt) for build Apache Tomcat
 
 ### IDE for idea config
----
+
 put ${tomcat_home}/lib/*jar to idea menu
 "Project Structure/Modules/tomcat/Dependencies"
 
