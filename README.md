@@ -76,6 +76,6 @@ Please see [BUILDING](BUILDING.txt) for build Apache Tomcat
 put ${tomcat_home}/lib/*jar to idea menu
 "Project Structure/Modules/tomcat/Dependencies"
 
-### modify MANIFEST.MF
-
-modify  [MANIFEST.MF](modules/jdbc-pool/resources/MANIFEST.MF)  @@VERSION@@ to "Tomcat Version" for example "8.0"
+###  MANIFEST.MF
+@TOKEN@ 
+https://ant.apache.org/manual/Tasks/filter.html
