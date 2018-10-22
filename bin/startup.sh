@@ -56,5 +56,8 @@ else
     exit 1
   fi
 fi
-
+echo start script is "$PRGDIR"/"$EXECUTABLE" start "$@"
+#$@表示所有参数
+#$#表示所有参数的个数
+echo script patameters "[" "$@" "]" count "$#"
 exec "$PRGDIR"/"$EXECUTABLE" start "$@"

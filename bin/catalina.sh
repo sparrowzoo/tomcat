@@ -106,7 +106,7 @@
 #                   signals. Default is "false" unless running on HP-UX in which
 #                   case the default is "true"
 # -----------------------------------------------------------------------------
-
+echo catalina.sh parameters is $@
 # OS specific support.  $var _must_ be set to either true or false.
 cygwin=false
 darwin=false
@@ -399,9 +399,7 @@ elif [ "$1" = "run" ]; then
       -Djava.io.tmpdir="\"$CATALINA_TMPDIR\"" \
       org.apache.catalina.startup.Bootstrap "$@" start
   fi
-
 elif [ "$1" = "start" ] ; then
-
   if [ ! -z "$CATALINA_PID" ]; then
     if [ -f "$CATALINA_PID" ]; then
       if [ -s "$CATALINA_PID" ]; then
@@ -441,7 +439,7 @@ elif [ "$1" = "start" ] ; then
       fi
     fi
   fi
-
+        echo "starting tomcat ......$@ after shift remove first parameter [$1]";
   shift
   touch "$CATALINA_OUT"
   if [ "$1" = "-security" ] ; then
@@ -460,7 +458,19 @@ elif [ "$1" = "start" ] ; then
       org.apache.catalina.startup.Bootstrap "$@" start \
       >> "$CATALINA_OUT" 2>&1 "&"
 
+
+
   else
+
+      echo $_NOHUP "\"$_RUNJAVA\"" "\"$LOGGING_CONFIG\"" $LOGGING_MANAGER $JAVA_OPTS $CATALINA_OPTS \
+      -D$ENDORSED_PROP="\"$JAVA_ENDORSED_DIRS\"" \
+      -classpath "\"$CLASSPATH\"" \
+      -Dcatalina.base="\"$CATALINA_BASE\"" \
+      -Dcatalina.home="\"$CATALINA_HOME\"" \
+      -Djava.io.tmpdir="\"$CATALINA_TMPDIR\"" \
+      org.apache.catalina.startup.Bootstrap "$@" start \
+      ">>" "$CATALINA_OUT" 2>&1 "&"
+
     eval $_NOHUP "\"$_RUNJAVA\"" "\"$LOGGING_CONFIG\"" $LOGGING_MANAGER $JAVA_OPTS $CATALINA_OPTS \
       -D$ENDORSED_PROP="\"$JAVA_ENDORSED_DIRS\"" \
       -classpath "\"$CLASSPATH\"" \
