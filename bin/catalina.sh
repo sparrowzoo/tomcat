@@ -1,10 +1,5 @@
 #!/bin/sh
 #
-#-v  显示所有行，详细模式
-
-#-n  检查语法，不执行命令
-
-#-x shell 跟踪模式，显示所有命令和参数
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.

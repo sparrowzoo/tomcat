@@ -49,6 +49,7 @@ if $os400; then
   # this will not work if the user belongs in secondary groups
   eval
 else
+  # !表示非
   if [ ! -x "$PRGDIR"/"$EXECUTABLE" ]; then
     echo "Cannot find $PRGDIR/$EXECUTABLE"
     echo "The file is absent or does not have execute permission"
