@@ -1,5 +1,10 @@
 #!/bin/sh
+#
+#-v  显示所有行，详细模式
 
+#-n  检查语法，不执行命令
+
+#-x shell 跟踪模式，显示所有命令和参数
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -108,9 +113,14 @@
 # -----------------------------------------------------------------------------
 echo catalina.sh parameters is $@
 # OS specific support.  $var _must_ be set to either true or false.
+
+#Cygwin是一个在windows平台上运行的类UNIX模拟环境
 cygwin=false
+#Darwin是由苹果电脑于2000年所释出的一个开放原始码操作系统。Darwin 是MacOSX 操作环境的操作系统成份。
 darwin=false
+#OS/400 is the operating system IBM uses for their AS/400 (now called iSeries) computers.
 os400=false
+#HP-UX (from "Hewlett Packard Unix") is Hewlett Packard Enterprise's proprietary implementation of the Unix operating system
 hpux=false
 case "`uname`" in
 CYGWIN*) cygwin=true;;
@@ -120,14 +130,16 @@ HP-UX*) hpux=true;;
 esac
 
 # resolve links - $0 may be a softlink
+echo PRG is current shell "["$0"]"
 PRG="$0"
-
+# 如果是软链接文件
 while [ -h "$PRG" ]; do
   ls=`ls -ld "$PRG"`
   link=`expr "$ls" : '.*-> \(.*\)$'`
   if expr "$link" : '/.*' > /dev/null; then
     PRG="$link"
   else
+    #取当前目录
     PRG=`dirname "$PRG"`/"$link"
   fi
 done
@@ -136,6 +148,8 @@ done
 PRGDIR=`dirname "$PRG"`
 
 # Only set CATALINA_HOME if not already set
+# https://www.gnu.org/software/bash/manual/bashref.html#Redirections
+# cd /d/not-exist-path>/dev/null 2>1
 [ -z "$CATALINA_HOME" ] && CATALINA_HOME=`cd "$PRGDIR/.." >/dev/null; pwd`
 
 # Copy CATALINA_BASE from CATALINA_HOME if not already set
@@ -143,9 +157,12 @@ PRGDIR=`dirname "$PRG"`
 
 # Ensure that any user defined CLASSPATH variables are not used on startup,
 # but allow them to be specified in setenv.sh, in rare case when it is needed.
+
 CLASSPATH=
 
 if [ -r "$CATALINA_BASE/bin/setenv.sh" ]; then
+#https://www.gnu.org/software/bash/manual/bashref.html#index-source
+#source --help
   . "$CATALINA_BASE/bin/setenv.sh"
 elif [ -r "$CATALINA_HOME/bin/setenv.sh" ]; then
   . "$CATALINA_HOME/bin/setenv.sh"
