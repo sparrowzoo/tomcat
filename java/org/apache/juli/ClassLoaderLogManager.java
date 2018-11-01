@@ -145,6 +145,7 @@ public class ClassLoaderLogManager extends LogManager {
      * Add the specified logger to the classloader local configuration.
      *
      * @param logger The logger to be added
+     * @see java.util.logging.Logger getLogger  recursion
      */
     @Override
     public synchronized boolean addLogger(final Logger logger) {
@@ -180,8 +181,18 @@ public class ClassLoaderLogManager extends LogManager {
         int dotIndex = loggerName.lastIndexOf('.');
         if (dotIndex >= 0) {
             final String parentName = loggerName.substring(0, dotIndex);
+            //@harry get parent log name  recursion
+            //org.apache.catalina.startup
+            //org.apache.catalina
+            //org.apache
+            //org
             Logger.getLogger(parentName);
         }
+
+        //org
+        //org.apache
+        //org.apache.catalina
+        //org.apache.catalina.startup
 
         // Find associated node
         LogNode node = info.rootNode.findNode(loggerName);
@@ -198,8 +209,10 @@ public class ClassLoaderLogManager extends LogManager {
 
         // Add associated handlers, if any are defined using the .handlers property.
         // In this case, handlers of the parent logger(s) will not be used
+        //@harry  read .handler config
         String handlers = getProperty(loggerName + ".handlers");
         if (handlers != null) {
+            //@harry without use parent if exist handler
             logger.setUseParentHandlers(false);
             StringTokenizer tok = new StringTokenizer(handlers, ",");
             while (tok.hasMoreTokens()) {
@@ -209,6 +222,7 @@ public class ClassLoaderLogManager extends LogManager {
                 while (current != null) {
                     info = classLoaderLoggers.get(current);
                     if (info != null) {
+                        //@harry read from handlers config
                         handler = info.handlers.get(handlerName);
                         if (handler != null) {
                             break;
@@ -272,6 +286,9 @@ public class ClassLoaderLogManager extends LogManager {
     @Override
     public String getProperty(String name) {
 
+        if(name.equalsIgnoreCase("org.apache.catalina.core.ContainerBase.[Catalina].level")){
+            System.err.println("org.apache.catalina.core.ContainerBase.[Catalina].level debug");
+        }
         // Use a ThreadLocal to work around
         // https://bugs.openjdk.java.net/browse/JDK-8195096
         if (".handlers".equals(name) && !addingLocalRootLogger.get().booleanValue()) {
@@ -449,6 +466,7 @@ public class ClassLoaderLogManager extends LogManager {
     protected synchronized void readConfiguration(ClassLoader classLoader)
         throws IOException {
 
+        //@harry read configuration
         InputStream is = null;
         // Special case for URL classloaders which are used in containers:
         // only look in the local repositories to avoid redefining loggers 20 times
@@ -531,17 +549,23 @@ public class ClassLoaderLogManager extends LogManager {
                 localRootLogger.setParent(info.rootNode.logger);
             }
         }
+        //@harry init class loader info
+        //add root log node
         ClassLoaderLogInfo info =
             new ClassLoaderLogInfo(new LogNode(null, localRootLogger));
+        //@harry classloader loggers is global variable
+        // info is root logger info
         classLoaderLoggers.put(classLoader, info);
 
         if (is != null) {
+            //@harry init handler instance for classloader
             readConfiguration(is, classLoader);
         }
         try {
             // Use a ThreadLocal to work around
             // https://bugs.openjdk.java.net/browse/JDK-8195096
             addingLocalRootLogger.set(Boolean.TRUE);
+            //@harry add root logger
             addLogger(localRootLogger);
         } finally {
             addingLocalRootLogger.set(Boolean.FALSE);
@@ -576,7 +600,9 @@ public class ClassLoaderLogManager extends LogManager {
         }
 
         // Create handlers for the root logger of this classloader
+        // .handler is root handler
         String rootHandlers = info.props.getProperty(".handlers");
+        // all handlers
         String handlers = info.props.getProperty("handlers");
         Logger localRootLogger = info.rootNode.logger;
         if (handlers != null) {
@@ -591,9 +617,11 @@ public class ClassLoaderLogManager extends LogManager {
                 // Parse and remove a prefix (prefix start with a digit, such as
                 // "10WebappFooHandler.")
                 if (Character.isDigit(handlerClassName.charAt(0))) {
+                    //start with digit and end with .
                     int pos = handlerClassName.indexOf('.');
                     if (pos >= 0) {
                         prefix = handlerClassName.substring(0, pos + 1);
+                        //remove prefix is handler class name
                         handlerClassName = handlerClassName.substring(pos + 1);
                     }
                 }
@@ -716,6 +744,14 @@ public class ClassLoaderLogManager extends LogManager {
             this(parent, null);
         }
 
+        /**
+         * 1.com
+         * 2.com.apache
+         * 3.com.apache.catalina
+         * 4.com.apache.catalina.startup.*
+         * @param name
+         * @return
+         */
         LogNode findNode(String name) {
             LogNode currentNode = this;
             if (logger.getName().equals(name)) {
@@ -728,6 +764,10 @@ public class ClassLoaderLogManager extends LogManager {
                     nextName = name;
                     name = null;
                 } else {
+                    //nextName="global"
+                    //org
+                    //apache
+                    //catalina
                     nextName = name.substring(0, dotIndex);
                     name = name.substring(dotIndex + 1);
                 }
@@ -770,6 +810,9 @@ public class ClassLoaderLogManager extends LogManager {
 
 
     protected static final class ClassLoaderLogInfo {
+        /**
+         * root node of loggerName tree
+         */
         final LogNode rootNode;
         final Map<String, Logger> loggers = new ConcurrentHashMap<>();
         final Map<String, Handler> handlers = new HashMap<>();
