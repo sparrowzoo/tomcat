@@ -495,6 +495,7 @@ elif [ "$1" = "start" ] ; then
   fi
 
   if [ ! -z "$CATALINA_PID" ]; then
+     //$!Shell最后运行的后台Process的PID
     echo $! > "$CATALINA_PID"
   fi
 
