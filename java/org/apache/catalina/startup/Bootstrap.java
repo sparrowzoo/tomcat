@@ -72,6 +72,9 @@ public final class Bootstrap {
 
         System.setProperty("java.util.logging.config.file", "${catalina.base}/conf/logging.properties");
 
+        //for eureka
+        System.setProperty("eureka.waitTimeInMsWhenSyncEmpty","0");
+        System.setProperty("eureka.numberRegistrySyncRetries","0");
 
         // Home first
         String home = System.getProperty(Globals.CATALINA_HOME_PROP);

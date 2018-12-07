@@ -164,9 +164,9 @@
 
             </Host>
 
-            <Host appBase="${sparrow_base_dir}/webapps" autoDeploy="true" name="eureka"
+            <Host appBase="${sparrow_base_dir}/tomcat/webapps" autoDeploy="true" name="eureka"
                   unpackWARs="true" xmlNamespaceAware="false" xmlValidation="false">
-                <Context path="" docBase="${sparrow_base_dir}\\eureka\\eureka-server\\build\\libs\\eureka-server-1.9.9-SNAPSHOT.war"
+                <Context path="eureka"
                          reloadable="true"/>
             </Host>
 
