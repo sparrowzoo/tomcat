@@ -50,6 +50,7 @@ public abstract class JspFactory {
      */
     public JspFactory() {
         // NOOP by default
+        System.out.println("jsp factory init");
     }
 
     /**

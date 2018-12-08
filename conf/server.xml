@@ -164,11 +164,11 @@
 
             </Host>
 
-            <Host appBase="${sparrow_base_dir}/tomcat/webapps" autoDeploy="true" name="eureka"
-                  unpackWARs="true" xmlNamespaceAware="false" xmlValidation="false">
-                <Context path="eureka"
-                         reloadable="true"/>
-            </Host>
+            <!--<Host appBase="${sparrow_base_dir}/tomcat/webapps" autoDeploy="true" name="eureka"-->
+                  <!--unpackWARs="true" xmlNamespaceAware="false" xmlValidation="false">-->
+                <!--<Context path="eureka"-->
+                         <!--reloadable="true"/>-->
+            <!--</Host>-->
 
             <!--<Host appBase="${sparrow_base_dir}/webapps" autoDeploy="true" name="sparrowzoo"-->
                   <!--unpackWARs="true" xmlNamespaceAware="false" xmlValidation="false">-->

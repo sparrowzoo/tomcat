@@ -38,6 +38,10 @@ import org.apache.jasper.Constants;
  */
 public class JspFactoryImpl extends JspFactory {
 
+    public JspFactoryImpl(){
+        System.out.println("jsp factory impl init spec version is 2.3");
+    }
+
     private static final String SPEC_VERSION = "2.3";
     private static final boolean USE_POOL =
         Boolean.parseBoolean(System.getProperty("org.apache.jasper.runtime.JspFactoryImpl.USE_POOL", "true"));
